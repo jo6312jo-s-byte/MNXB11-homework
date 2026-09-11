@@ -1,4 +1,4 @@
-# MNXB11 conflicted fairytale, branch myconflict 
+# MNXB11 conflicted fairytale, branch myconflict
 
 Once upon a time,
 there was an **evil** _witch_
