@@ -1,0 +1,214 @@
+kjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ cat run_in_container_calculatePI.sh 
+[?2004l#!/bin/sh
+# This script runs the calculatePI.sh script using the container `mnxb11_al9.latest.sif` with minimum required parameters
+# -B mounts the project directory inside the container so that is visible also inside the container
+apptainer run -B /projects:/projects /projects/hep/fs11/share/mnxb11/containers/mnxb11_al9.latest.sif ./calculatePI_setup.sh
+
+
+kjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ cat calculatePI.sbatch-joeljohansen 
+[?2004l#!/bin/sh
+
+#SBATCH -J "MNXB11 Calculate Pi Homework"
+#SBATCH --time=00:08:30
+#SBATCH -A hep2023-1-6
+#SBATCH --mem 26000M
+
+# Launch the calculatePI.sh application script using the container script
+run_in_container_calculatePI.sh
+kjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ sbatch calculatePI.sbatch-joeljohansen 
+[?2004lSubmitted batch job 3784939
+kjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ squeue -j 3784939
+[?2004l             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3784939       hep MNXB11 C jojo6312  R       0:27      1 cx12
+kjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ sques[Kue | less
+[?2004l[?1049h[22;0;0t[?1h=             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST( REASON)
+           3784437   gpua100     av10 sh4525li PD       0:00      1 (AssocGrp GRES)
+           3784896   gpua100 v69-post nimamohs PD       0:00      1 (Resource s)
+           3783560   gpua100 lhpc_jup  donglin  R    7:16:53      1 cg08
+           3782587   gpua100 lhpc_jup  donglin  R   21:36:20      1 cg10
+           3783195   gpua100   av11_2 sh4525li  R   21:21:00      1 cg09
+           3783210   gpua100    av9_1 sh4525li  R   20:27:36      1 cg11
+           3783234   gpua100 lhpc_jup  donglin  R   20:02:18      1 cg12
+           3756155   gpua100 interact      nnh  R 3-08:52:51      1 cg07
+           3780716  gpua100i embed_dl   mjheid  R 1-05:47:16      1 cg21
+           3783559  gpua100i  sv14_11 sh4525li  R   16:07:04      1 cg20
+           3783225  gpua100i   sv14_8 sh4525li  R   20:23:10      1 cg19
+           3783233  gpua100i  gpu_job   emma_b  R   20:56:51      1 cg18
+           3784387    gpua40 cav_aoa8 mo0460is PD       0:00      1 (Dependen cy)
+           3784386    gpua40 cav_aoa8 mo0460is  R    4:59:16      1 cg06
+           3784938   gpua40i cryospar   sustom  R       1:00      1 cg15
+           3784939       hep MNXB11 C jojo6312  R       0:39      1 cx12
+           3782978       hep    BSMPT filipgus  R   22:28:29      6 cx[04-08, 15]
+           3778778       hep   Scan_5  hanxiao  R 2-02:28:23      1 cx13
+ 3783186_[12-47%2]      lu48 TABACE_g  mek-pao PD       0:00      1 (JobArray TaskLimit)
+           3783187      lu48 TABACE_c  mek-pao PD       0:00      1 (Dependen cy)
+           3784391      lu48 testAcou   meruem PD       0:00     14 (Resource s)
+           3772263      lu48 guess_ap dommeeks PD       0:00      1 (Dependen :[K[K [KESCESC[KOO[KBB[KcyNeverSatisfied)
+:[K[K[?1l>[?1049l[23;0;0tkjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ squeue | less-j 3784939batch calculatePI.sbatch-joeljohansen [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[3Pcat[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Crun_in_container_calculatePI.sh[C[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Ksinfo | less
+[?2004l[?1049h[22;0;0t[?1h=PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+nuc          up 7-00:00:00      1 drain* nuc80
+nuc          up 7-00:00:00     23  drain nuc[02-04,09,13,23,25,27,29-30,35,37 ,39,45,49-50,69,71,73,75,81,91,93]
+nuc          up 7-00:00:00     72   idle nuc[01,05-08,10-12,14-22,24,26,28,31 -34,36,38,40-44,46-48,51-68,70,72,74,76-79,82-90,92,94-96]
+lu48*        up 7-00:00:00      1   plnd cn049
+lu48*        up 7-00:00:00      1  drain cn284
+lu48*        up 7-00:00:00      2   resv cx[02-03]
+lu48*        up 7-00:00:00     44    mix cn[001,006-007,009-010,014,018,025,0 29,032,038,040,044,048,054-055,060,063-064,074,076,085-086,093,101,104,107,11 2,116,127-128,133-135,156-157,159,163,173,176-178,182],cx01
+lu48*        up 7-00:00:00    138  alloc cn[002-005,008,011-013,015-017,019-0 24,026-028,030-031,033-037,039,041-043,045-047,050-053,056-059,061-062,065-07 3,075,077-084,087-092,094-100,102-103,105-106,108-111,113-115,117-126,129-132 ,136-155,158,160-162,164-172,174-175,179-181]
+hep          up 5-00:00:00      1    mix cx12
+hep          up 5-00:00:00      7  alloc cx[04-08,13,15]
+hep          up 5-00:00:00      4   idle cx[09-11,14]
+gpua40       up 1-00:00:00      2  drain cg[01-02]
+gpua40       up 1-00:00:00      4   idle cg[03-06]
+hpua40       up 1-00:00:00      2  drain cg[01-02]
+hpua40       up 1-00:00:00      4   idle cg[03-06]
+gpua40i      up 2-00:00:00      2  drain cg[13-14]
+gpua40i      up 2-00:00:00      2  alloc cg[15,23]
+gpua40i      up 2-00:00:00      2   idle cg[16-17]
+hpua40i      up 2-00:00:00      2  drain cg[13-14]
+hpua40i      up 2-00:00:00      2  alloc cg[15,23]
+hpua40i      up 2-00:00:00      2   idle cg[16-17]
+gpua100      up 7-00:00:00      6  alloc cg[07-12]
+gpua100i     up 7-00:00:00      3    mix cg[18-20]
+:[K[K[?1l>[?1049l[23;0;0tkjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ cat slurm-3784939.out | less 
+[?2004l[?1049h[22;0;0t[?1h=Creating temporary folder for output files...
+Saving node information...
+Starting calculation...
+Processing datapoint: 0 of 300000000
+Processing datapoint: 1000 of 300000000
+Processing datapoint: 2000 of 300000000
+Processing datapoint: 3000 of 300000000
+Processing datapoint: 4000 of 300000000
+Processing datapoint: 5000 of 300000000
+Processing datapoint: 6000 of 300000000
+Processing datapoint: 7000 of 300000000
+Processing datapoint: 8000 of 300000000
+Processing datapoint: 9000 of 300000000
+Processing datapoint: 10000 of 300000000
+Processing datapoint: 11000 of 300000000
+Processing datapoint: 12000 of 300000000
+Processing datapoint: 13000 of 300000000
+Processing datapoint: 14000 of 300000000
+Processing datapoint: 15000 of 300000000
+Processing datapoint: 16000 of 300000000
+Processing datapoint: 17000 of 300000000
+Processing datapoint: 18000 of 300000000
+Processing datapoint: 19000 of 300000000
+Processing datapoint: 20000 of 300000000
+Processing datapoint: 21000 of 300000000
+Processing datapoint: 22000 of 300000000
+Processing datapoint: 23000 of 300000000
+Processing datapoint: 24000 of 300000000
+Processing datapoint: 25000 of 300000000
+Processing datapoint: 26000 of 300000000
+Processing datapoint: 27000 of 300000000
+:[K[K[?1l>[?1049l[23;0;0tkjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ squeue [K[K[K[K[K[K[Kscontrol show job [11@cat slurm-3784939.out | less[C[17Psinfo | less[1@queue[C[C[C[C[C[C[C-j 3784939batch calculatePI.sbatch-joeljohansen [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[3Pcat[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Crun_in_container_calculatePI.sh[CcalculatePI.sbatch-joeljohansen[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[3@sbatch[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[22Pqueue -j 3784939[4P| less[1Pinfo[C[C[C[C[C[C[Ccat slurm-3784939.out | less [11Pscontrol show job[Cslurm-3784939.out [K[K[K[K[K[1P3784939[1P3784939[1P3784939[1P3784939[1P3784939[1P3784939
+[?2004lJobId=3784939 JobName=MNXB11 Calculate Pi Homework
+   UserId=jojo6312(400233) GroupId=jojo6312(400233) MCS_label=N/A
+   Priority=54557 Nice=0 Account=hep2023-1-6 QOS=parrun
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:03:38 TimeLimit=00:09:00 TimeMin=N/A
+   SubmitTime=2026-10-04T16:33:40 EligibleTime=2026-10-04T16:33:40
+   AccrueTime=2026-10-04T16:33:40
+   StartTime=2026-10-04T16:33:41 EndTime=2026-10-04T16:42:41 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-04T16:33:41 Scheduler=Main
+   Partition=hep AllocNode:Sid=cosmos-pkf:2347282
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=cx12
+   BatchHost=cx12
+   NumNodes=1 NumCPUs=1 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   ReqTRES=cpu=1,mem=26000M,node=1,billing=1
+   AllocTRES=cpu=1,mem=26000M,node=1,billing=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=26000M MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/home/jojo6312/git/MNXB11-homework/homework3/calculatePI/scripts/calculatePI.sbatch-joeljohansen
+   WorkDir=/home/jojo6312/git/MNXB11-homework/homework3/calculatePI/scripts
+   StdErr=/home/jojo6312/git/MNXB11-homework/homework3/calculatePI/scripts/slurm-3784939.out
+   StdIn=/dev/null
+   StdOut=/home/jojo6312/git/MNXB11-homework/homework3/calculatePI/scripts/slurm-3784939.out
+   Power=
+   
+
+kjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ scontrol show job 3784939cat slurm-3784939.out | less [17Psinfo | less[1@queue[C[C[C[C[C[C[C-j 3784939batch calculatePI.sbatch-joeljohansen [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[3Pcat[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Crun_in_container_calculatePI.sh[CcalculatePI.sbatch-joeljohansen[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[3@sbatch[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[22Pqueue -j 3784939[4P| less[1Pinfo[C[C[C[C[C[C[Ccat slurm-3784939.out | less [4Pscontrol show job 3784939[Kscontrol show job 3784939cat slurm-3784939.out | less [17Psinfo | less[1@queue[C[C[C[C[C[C[C-j 3784939batch calculatePI.sbatch-joeljohansen [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[3Pcat[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Crun_in_container_calculatePI.sh[CcalculatePI.sbatch-joeljohansen[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[3@sbatch[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[22Pqueue -j 3784939[4P| less[1Pinfo[C[C[C[C[C[C[Ccat slurm-3784939.out | less [4Pscontrol show job 3784939[Ksbatch -J "WASTED" calculatePI.sbatch-joeljohansen 
+[?2004lSubmitted batch job 3784942
+kjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ sbatch -J "WASTED" calculatePI.sbatch-joeljohansen 
+[?2004lSubmitted batch job 3784943
+kjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ sbatch -J "WASTED" calculatePI.sbatch-joeljohansen 
+[?2004lSubmitted batch job 3784944
+kjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ squeue -u jojo6312
+[?2004l             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3784943       hep   WASTED jojo6312  R       0:19      1 cx12
+           3784944       hep   WASTED jojo6312  R       0:19      1 cx12
+           3784942       hep   WASTED jojo6312  R       0:22      1 cx12
+           3784939       hep MNXB11 C jojo6312  R       4:38      1 cx12
+kjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ scancel37[K[K 3784943 
+[?2004lkjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ scancel 3784943 [K[K4
+[?2004lkjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ scancel 37849443 queue -u jojo6312
+[?2004l             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3784942       hep   WASTED jojo6312  R       1:00      1 cx12
+           3784939       hep MNXB11 C jojo6312  R       5:16      1 cx12
+kjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ scancel queue -u jojo6312[10Pcancel queue -u jojo6312[3Pcancel 3784944[K2
+[?2004lkjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ scancel 3784942[K[K39
+[?2004lkjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ scancel 378493942queue -u jojo6312
+[?2004l             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+kjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ exit[K[K[K[Kcat slurm-37849[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Kls la[K[K-la
+[?2004ltotal 73636
+drwxr-xr-x 2 jojo6312 jojo6312     4096 Oct  4 16:38 [0m[01;34m.[0m
+drwxr-xr-x 4 jojo6312 jojo6312     4096 Oct  2 15:40 [01;34m..[0m
+-rwxr-xr-x 1 jojo6312 jojo6312      876 Oct  2 15:40 [01;32mbuild_in_container_calculatePI.sh[0m
+-rwxr-xr-x 1 jojo6312 jojo6312     2924 Oct  2 15:40 [01;32mcalculatePI_build.sh[0m
+-rw-r--r-- 1 jojo6312 jojo6312      228 Oct  4 16:03 calculatePI.sbatch-joeljohansen
+-rwxr-xr-x 1 jojo6312 jojo6312      804 Oct  2 15:40 [01;32mcalculatePI_setup.sh[0m
+-rw-r--r-- 1 jojo6312 jojo6312 13389869 Oct  2 16:29 GNUtimeresults.txt
+-rwxr-xr-x 1 jojo6312 jojo6312      359 Oct  2 15:40 [01;32mrun_in_container_calculatePI.sh[0m
+-rw-r--r-- 1 jojo6312 jojo6312    15389 Oct  4 16:40 screenlog.0
+-rw-r--r-- 1 jojo6312 jojo6312 13389094 Oct  4 16:39 slurm-3784939.out
+-rw-r--r-- 1 jojo6312 jojo6312 13389094 Oct  4 16:39 slurm-3784942.out
+-rw-r--r-- 1 jojo6312 jojo6312 13389094 Oct  4 16:38 slurm-3784943.out
+-rw-r--r-- 1 jojo6312 jojo6312 13389094 Oct  4 16:38 slurm-3784944.out
+kjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ cat slurm-3784944.out  [K| less
+[?2004l[?1049h[22;0;0t[?1h=Creating temporary folder for output files...
+Saving node information...
+Starting calculation...
+Processing datapoint: 0 of 300000000
+Processing datapoint: 1000 of 300000000
+Processing datapoint: 2000 of 300000000
+Processing datapoint: 3000 of 300000000
+Processing datapoint: 4000 of 300000000
+Processing datapoint: 5000 of 300000000
+Processing datapoint: 6000 of 300000000
+Processing datapoint: 7000 of 300000000
+Processing datapoint: 8000 of 300000000
+Processing datapoint: 9000 of 300000000
+Processing datapoint: 10000 of 300000000
+Processing datapoint: 11000 of 300000000
+Processing datapoint: 12000 of 300000000
+Processing datapoint: 13000 of 300000000
+Processing datapoint: 14000 of 300000000
+Processing datapoint: 15000 of 300000000
+Processing datapoint: 16000 of 300000000
+Processing datapoint: 17000 of 300000000
+Processing datapoint: 18000 of 300000000
+Processing datapoint: 19000 of 300000000
+Processing datapoint: 20000 of 300000000
+Processing datapoint: 21000 of 300000000
+Processing datapoint: 22000 of 300000000
+Processing datapoint: 23000 of 300000000
+Processing datapoint: 24000 of 300000000
+Processing datapoint: 25000 of 300000000
+Processing datapoint: 26000 of 300000000
+Processing datapoint: 27000 of 300000000
+:[K[K [KESCESC[KOO[KBB[KProcessing datapoint: 28000 of 300000000
+:[K[K [KESCESC[KOO[KBB[KProcessing datapoint: 29000 of 300000000
+:[K[K [KESCESC[KOO[KBB[KProcessing datapoint: 30000 of 300000000
+:[K[K [KESCESC[KOO[KBB[KProcessing datapoint: 31000 of 300000000
+:[K[K [KESCESC[KOO[KBB[KProcessing datapoint: 32000 of 300000000
+:[K[K [KESCESC[KOO[KBB[KProcessing datapoint: 33000 of 300000000
+:[K[K [KESCESC[KOO[KBB[KProcessing datapoint: 34000 of 300000000
+:[K[K [KESCESC[KOO[KBB[KProcessing datapoint: 35000 of 300000000
+:[K[K [KESCESC[KOO[KBB[KProcessing datapoint: 36000 of 300000000
+:[K[K [KESCESC[KOO[KBB[KProcessing datapoint: 37000 of 300000000
+:[K[K[?1l>[?1049l[23;0;0tkjojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[jojo6312@cosmos-pkf scripts]$ exit
+[?2004lexit
