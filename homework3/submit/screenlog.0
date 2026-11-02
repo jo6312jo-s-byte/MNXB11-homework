@@ -1,0 +1,95 @@
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ cat run_in_container_calculatePI.sh 
+#!/bin/sh
+# This script runs the calculatePI.sh script using the container `mnxb11_al9.latest.sif` with minimum required parameters
+# -B mounts the project directory inside the container so that is visible also inside the container
+apptainer run -B /projects:/projects /projects/hep/fs11/share/mnxb11/containers/mnxb11_al9.latest.sif ./calculatePI_setup.sh
+
+
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ cat calculatePI.sbatch-joeljohansen 
+#!/bin/sh
+
+#SBATCH -J "MNXB11 Calculate Pi Homework"
+#SBATCH --time=00:08:30
+#SBATCH -A hep2023-1-6
+#SBATCH --mem 26000M
+
+# Launch the calculatePI.sh application script using the container script
+run_in_container_calculatePI.sh
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ sbatch calculatePI.sbatch-joeljohansen 
+Submitted batch job 3784939
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ squeue -j 3784939
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3784939       hep MNXB11 C jojo6312  R       0:27      1 cx12
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ squeue | less
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ sbatch calculatePI.sbasinfo | less
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ cat slurm-3784939.out | less 
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ sbatch calculatePI.sbascontrol show job 3784939
+JobId=3784939 JobName=MNXB11 Calculate Pi Homework
+   UserId=jojo6312(400233) GroupId=jojo6312(400233) MCS_label=N/A
+   Priority=54557 Nice=0 Account=hep2023-1-6 QOS=parrun
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:03:38 TimeLimit=00:09:00 TimeMin=N/A
+   SubmitTime=2026-10-04T16:33:40 EligibleTime=2026-10-04T16:33:40
+   AccrueTime=2026-10-04T16:33:40
+   StartTime=2026-10-04T16:33:41 EndTime=2026-10-04T16:42:41 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-04T16:33:41 Scheduler=Main
+   Partition=hep AllocNode:Sid=cosmos-pkf:2347282
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=cx12
+   BatchHost=cx12
+   NumNodes=1 NumCPUs=1 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   ReqTRES=cpu=1,mem=26000M,node=1,billing=1
+   AllocTRES=cpu=1,mem=26000M,node=1,billing=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=26000M MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/home/jojo6312/git/MNXB11-homework/homework3/calculatePI/scripts/calculatePI.sbatch-joeljohansen
+   WorkDir=/home/jojo6312/git/MNXB11-homework/homework3/calculatePI/scripts
+   StdErr=/home/jojo6312/git/MNXB11-homework/homework3/calculatePI/scripts/slurm-3784939.out
+   StdIn=/dev/null
+   StdOut=/home/jojo6312/git/MNXB11-homework/homework3/calculatePI/scripts/slurm-3784939.out
+   Power=
+   
+
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ sbatch calculatePI.sbasbatch -J "WASTED" calculatePI.sbatch-joeljohansen 
+Submitted batch job 3784942
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ sbatch -J "WASTED" calculatePI.sbatch-joeljohansen 
+Submitted batch job 3784943
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ sbatch -J "WASTED" calculatePI.sbatch-joeljohansen 
+Submitted batch job 3784944
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ squeue -u jojo6312
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3784943       hep   WASTED jojo6312  R       0:19      1 cx12
+           3784944       hep   WASTED jojo6312  R       0:19      1 cx12
+           3784942       hep   WASTED jojo6312  R       0:22      1 cx12
+           3784939       hep MNXB11 C jojo6312  R       4:38      1 cx12
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ scancel 3784943 
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ scancel 3784944
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ squeue -u jojo6312
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3784942       hep   WASTED jojo6312  R       1:00      1 cx12
+           3784939       hep MNXB11 C jojo6312  R       5:16      1 cx12
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ scancel 3784942
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ scancel 3784939
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ squeue -u jojo6312
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ ls -la
+total 73636
+drwxr-xr-x 2 jojo6312 jojo6312     4096 Oct  4 16:38 .
+drwxr-xr-x 4 jojo6312 jojo6312     4096 Oct  2 15:40 ..
+-rwxr-xr-x 1 jojo6312 jojo6312      876 Oct  2 15:40 build_in_container_calculatePI.sh
+-rwxr-xr-x 1 jojo6312 jojo6312     2924 Oct  2 15:40 calculatePI_build.sh
+-rw-r--r-- 1 jojo6312 jojo6312      228 Oct  4 16:03 calculatePI.sbatch-joeljohansen
+-rwxr-xr-x 1 jojo6312 jojo6312      804 Oct  2 15:40 calculatePI_setup.sh
+-rw-r--r-- 1 jojo6312 jojo6312 13389869 Oct  2 16:29 GNUtimeresults.txt
+-rwxr-xr-x 1 jojo6312 jojo6312      359 Oct  2 15:40 run_in_container_calculatePI.sh
+-rw-r--r-- 1 jojo6312 jojo6312    15389 Oct  4 16:40 screenlog.0
+-rw-r--r-- 1 jojo6312 jojo6312 13389094 Oct  4 16:39 slurm-3784939.out
+-rw-r--r-- 1 jojo6312 jojo6312 13389094 Oct  4 16:39 slurm-3784942.out
+-rw-r--r-- 1 jojo6312 jojo6312 13389094 Oct  4 16:38 slurm-3784943.out
+-rw-r--r-- 1 jojo6312 jojo6312 13389094 Oct  4 16:38 slurm-3784944.out
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ cat slurm-3784944.out | less
+jojo6312@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts[jojo6312@cosmos-pkf scripts]$ exit
+exit
